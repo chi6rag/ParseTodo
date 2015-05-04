@@ -4,24 +4,27 @@
       var ParseNote = Parse.Object.extend("Note");
       var query = new Parse.Query(ParseNote);
 
-      query.equalTo("done", false);
-      var result = null;
+      // query.equalTo("done", false);
       query.find({
         success: function(results){
           // notes loaded
           console.log("Testing: loaded data from the database");
-          displayUndoneResultsOnDOM(results);
+          displayResultsOnDOM(results);
         },
         error: function(error){
           console.log("Error: " + error);
         }
       });
 
-      function displayUndoneResultsOnDOM(results){
+      function displayResultsOnDOM(results){
         for(index in results){
           resultId = results[index].id;
           resultNote = results[index].attributes.note;
-          var resultNode = "<p><input class='toggle' type='checkbox' id=" + resultId + "/> &nbsp;" + "<span>" + resultNote + "</span>" + "</p>";
+          if(results[index].attributes.done == false){
+            var resultNode = "<p><input class='toggle' type='checkbox' id=" + resultId + "/> &nbsp;" + "<span>" + resultNote + "</span>" + "</p>";}
+          else{
+            var resultNode = "<p><input class='toggle' type='checkbox' id=" + resultId + " checked/> &nbsp;" + "<span style='text-decoration: line-through;'>" + resultNote + "</span>" + "</p>";
+          }
           resultNode = resultNode;
           $('.notemaking-form').append(resultNode)
         }
@@ -53,6 +56,8 @@
       });
 
       $('.notemaking-form').on('click', '.toggle', function(){
+
+        // do this when checkbox is checked
         if($(this).is(':checked')){
           var thisNote = $(this)
           var noteId = $(this).attr('id').replace(/\/$/, '');
@@ -60,15 +65,41 @@
           query.get(noteId, {
             success: function(updatedNote){
               updatedNote.set("done", true);
-              updatedNote.save();
-              thisNote.parent().remove();
+              updatedNote.save(null, {
+                success: function(){
+                  console.log("Marked done");
+                  thisNote.parent().find('span').css('text-decoration' ,'line-through');
+                },
+                error: function(){console.log("Update failed: Cannot mark done");}
+              });
             },
             error: function(){
               console.log("This is an error");
             }
           });
         }
-        else { console.log("no"); }
+
+        // else do this
+        else { 
+          var thisNote = $(this);
+          var noteId = $(this).attr('id').replace(/\/$/, '');
+          console.log("TESTING | noteId: " + noteId);
+          query.get(noteId, {
+            success: function(updatedNote){
+              updatedNote.set("done", false);
+              updatedNote.save(null, {
+                success: function(){
+                  console.log("Marked undone");
+                  thisNote.parent().find('span').css('text-decoration' ,'none');
+                },
+                error: function(){console.log("Update failed: cannot Mark undone");}
+              });
+            },
+            error: function(){
+              console.log("This is an error");
+            }
+          });
+        }
       });
 
     });
