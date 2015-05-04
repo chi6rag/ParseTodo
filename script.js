@@ -20,7 +20,7 @@
         for(index in results){
           resultId = results[index].id;
           resultNote = results[index].attributes.note;
-          var resultNode = "<p><input class='toggleDone' type='checkbox' id=" + resultId + "/> &nbsp;" + "<span>" + resultNote + "</span>" + "</p>";
+          var resultNode = "<p><input class='toggle' type='checkbox' id=" + resultId + "/> &nbsp;" + "<span>" + resultNote + "</span>" + "</p>";
           resultNode = resultNode;
           $('.notemaking-form').append(resultNode)
         }
@@ -40,7 +40,7 @@
             success: function(savedNote){
               console.log("Note: " + savedNote.attributes.note)
               $(".notemaking-form>input[type='text']").val("");
-              var newNote = "<p><input class='toggleDone' type='checkbox' id=" + savedNote.id + "/> &nbsp;" + "<span>" + savedNote.attributes.note + "</span>" + "</p>";
+              var newNote = "<p><input class='toggle' type='checkbox' id=" + savedNote.id + "/> &nbsp;" + "<span>" + savedNote.attributes.note + "</span>" + "</p>";
               newNote = $(newNote);
               $('.notemaking-form').append(newNote);
             },
@@ -50,5 +50,9 @@
           });
         }
       });
+
+      $('.toggle').on('click', function(){
+        console.log("Hi!")
+      })
 
     });
