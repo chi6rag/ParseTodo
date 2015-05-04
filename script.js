@@ -54,12 +54,14 @@
 
       $('.notemaking-form').on('click', '.toggle', function(){
         if($(this).is(':checked')){
+          var thisNote = $(this)
           var noteId = $(this).attr('id').replace(/\/$/, '');
           console.log("TESTING | noteId: " + noteId);
           query.get(noteId, {
             success: function(updatedNote){
               updatedNote.set("done", true);
               updatedNote.save();
+              thisNote.parent().remove();
             },
             error: function(){
               console.log("This is an error");
