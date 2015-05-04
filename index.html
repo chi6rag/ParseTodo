@@ -44,8 +44,8 @@
         for(index in results){
           resultId = results[index].id;
           resultNote = results[index].attributes.note;
-          var resultNode = "<li><input class='toggleDone' type='checkbox' id=" + resultId + "/> &nbsp;" + "<span>" + resultNote + "</span>" + "</li>&nbsp;<button class='onetwothree'>Hello</button>";
-          resultNode = '<ul>' + resultNode + '</ul>';
+          var resultNode = "<p><input class='toggleDone' type='checkbox' id=" + resultId + "/> &nbsp;" + "<span>" + resultNote + "</span>" + "</p>";
+          resultNode = resultNode;
           $('.notemaking-form').append(resultNode)
         }
       }
@@ -64,9 +64,9 @@
             success: function(savedNote){
               console.log("Note: " + savedNote.attributes.note)
               $(".notemaking-form>input[type='text']").val("");
-              var newNote = "<li><input class='toggleDone' type='checkbox' id=" + savedNote.id + "/> &nbsp;" + "<span>" + savedNote.attributes.note + "</span>" + "</li>&nbsp;<button class='onetwothree'>Hello</button>";
+              var newNote = "<p><input class='toggleDone' type='checkbox' id=" + savedNote.id + "/> &nbsp;" + "<span>" + savedNote.attributes.note + "</span>" + "</p>";
               newNote = $(newNote);
-              $('ul').append(newNote);
+              $('.notemaking-form').append(newNote);
             },
             error: function(){
               alert("The note cannot be saved");
@@ -74,6 +74,7 @@
           });
         }
       });
+
     });
 
   </script>
