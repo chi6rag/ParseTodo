@@ -3,6 +3,7 @@
       Parse.initialize("4KuCyKG4NwJsde9Sp3nk61CRUdbyDWwl6kAQMcUp", "26kKlSsP9gsgwQ96qeI6GOf0ndAzqI3G9iTPLgUl");
       var ParseNote = Parse.Object.extend("Note");
       var query = new Parse.Query(ParseNote);
+
       query.equalTo("done", false);
       var result = null;
       query.find({
@@ -51,8 +52,21 @@
         }
       });
 
-      $('.toggle').on('click', function(){
-        console.log("Hi!")
-      })
+      $('.notemaking-form').on('click', '.toggle', function(){
+        if($(this).is(':checked')){
+          var noteId = $(this).attr('id').replace(/\/$/, '');
+          console.log("TESTING | noteId: " + noteId);
+          query.get(noteId, {
+            success: function(updatedNote){
+              updatedNote.set("done", true);
+              updatedNote.save();
+            },
+            error: function(){
+              console.log("This is an error");
+            }
+          });
+        }
+        else { console.log("no"); }
+      });
 
     });
