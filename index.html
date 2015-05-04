@@ -1,0 +1,75 @@
+<!doctype html>
+<head>
+  <meta charset="utf-8">
+
+  <title>My Parse App</title>
+  <meta name="description" content="My Parse App">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.4.2.min.js"></script>
+</head>
+
+<body>
+  
+  <div id="main">
+    <h1>You're ready to use Parse!</h1>
+
+    <!-- <p>Read the documentation and start building your JavaScript app:</p> -->
+
+<!--     <ul>
+      <li><a href="https://www.parse.com/docs/js_guide">Parse JavaScript Guide</a></li>
+      <li><a href="https://www.parse.com/docs/js">Parse JavaScript API Documentation</a></li>
+    </ul>
+ -->
+<!--     <div style="display:none" class="error">
+      Looks like there was a problem saving the test object. Make sure you've set your application ID and javascript key correctly in the call to <code>Parse.initialize</code> in this file.
+    </div>
+ -->
+<!--     <div style="display:none" class="success">
+      <p>We've also just created your first object using the following code:</p>
+      
+        <code>
+          var TestObject = Parse.Object.extend("TestObject");<br/>
+          var testObject = new TestObject();<br/>
+          testObject.save({foo: "bar"});
+        </code>
+    </div>
+-->
+    <form class="notemaking-form">
+      <input type="text"/>
+      <input type="submit" value="Create note" />
+    </form>
+
+  </div>
+
+  <script type="text/javascript">
+    $(".notemaking-form>input[type='submit']").on('click', function(e){
+      e.preventDefault();
+      console.log("TESTING: clicked");
+      var note = $(".notemaking-form>input[type='text']").val();
+      if(note.length==0){ alert("The note cannot be blank"); }
+      else{
+        Parse.initialize("4KuCyKG4NwJsde9Sp3nk61CRUdbyDWwl6kAQMcUp", "26kKlSsP9gsgwQ96qeI6GOf0ndAzqI3G9iTPLgUl");
+        var TestObject = Parse.Object.extend("TestObject");
+        var testObject = new TestObject();
+        testObject.set("note", note);
+        testObject.save(null, {
+          success: function(){
+            console.log("Note: " + note)
+            $(".notemaking-form>input[type='text']").val("");
+            var newNote = '<p><input type="checkbox"/>&nbsp;<span>' + note + '</span></p>';
+            newNote = $(newNote);
+            $('.notemaking-form').prepend(newNote);
+          },
+          error: function(){
+            alert("The note cannot be saved");
+          }
+        });
+      }
+    });
+  </script>
+</body>
+
+</html>
