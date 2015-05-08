@@ -1,16 +1,8 @@
-<!doctype html>
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="utf-8">
-
-  <title>My Parse App</title>
-  <meta name="description" content="My Parse App">
-  <meta name="viewport" content="width=device-width">
-  <link rel="stylesheet" href="css/reset.css">
-  <link rel="stylesheet" href="css/styles.css">
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-  <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.4.2.min.js"></script>
+	<title>Dashboard</title>
 </head>
-
 <body>
   <script>
   // This is called with the results from from FB.getLoginStatus().
@@ -23,8 +15,7 @@
     // for FB.getLoginStatus().
     if (response.status === 'connected') {
       // Logged into your app and Facebook.
-      // testAPI();
-      window.location = window.location.href + 'dashboard'
+      testAPI();
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
       document.getElementById('status').innerHTML = 'Please log ' +
@@ -84,23 +75,15 @@
 
   // Here we run a very simple test of the Graph API after login is
   // successful.  See statusChangeCallback() for when this call is made.
-  // function testAPI() {
-  //   console.log('Welcome!  Fetching your information.... ');
-  //   FB.api('/me', function(response) {
-  //     console.log('Successful login for: ' + response.name);
-  //     document.getElementById('status').innerHTML =
-  //       'Thanks for logging in, ' + response.name + '!';
-  //   });
-  // }
+  function testAPI() {
+    console.log('Welcome!  Fetching your information.... ');
+    FB.api('/me', function(response) {
+      console.log('Successful login for: ' + response.name);
+      document.getElementById('status').innerHTML =
+        'Thanks for logging in, ' + response.name + '!';
+    });
+  }
 </script>
-  <div id="main">
-    <fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
-    <h1>You're ready to use Parse!</h1>
-    <form class="notemaking-form">
-      <input type="text"/>
-      <input type="submit" value="Create note" />
-    </form>
-  </div>
-  <script type="text/javascript" src="script.js"></script>
 </body>
+<div id="status"></div>
 </html>
