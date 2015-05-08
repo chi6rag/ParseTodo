@@ -1,5 +1,12 @@
 $(document).ready(function(){
 
+  // facebook stuff
+  FB.getLoginStatus(function(response) {
+      statusChangeCallback(response);
+  });
+  // facebook stuff ends
+
+
   Parse.initialize("4KuCyKG4NwJsde9Sp3nk61CRUdbyDWwl6kAQMcUp", "26kKlSsP9gsgwQ96qeI6GOf0ndAzqI3G9iTPLgUl");
   var ParseNote = Parse.Object.extend("Note");
   var query = new Parse.Query(ParseNote);
